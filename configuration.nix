@@ -5,10 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -46,7 +45,7 @@
     enable = true;
     displayManager.startx.enable = true;
     windowManager.leftwm.enable = true;
-    excludePackages = [pkgs.xterm];
+    excludePackages = [ pkgs.xterm ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -54,24 +53,16 @@
     isNormalUser = true;
     description = "cameron";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs; [ ];
     shell = pkgs.zsh;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  #nixpkgs.overlays = [
-  #  (self: super: {
-  #    leftwm = super.leftwm.overrideAttrs (old: {
-  #      postInstall = ''
-  #  	  for p in $out/bin/left*; do
-  #    	    patchelf --set-rpath "${super.lib.makeLibraryPath super.rpathLibs}" $p
-  #  	  done
-  # 	'';
-  #    });
-  #  })
-  #];
+  nixpkgs = {
+    # Apply overlays from overlays folder
+    overlays = import ./overlays;
+    # Allow unfree packages
+    config.allowUnfree = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
