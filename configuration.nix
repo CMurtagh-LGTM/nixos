@@ -3,17 +3,25 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      (import "${home-manager}/nixos")
     ];
+
+  home-manager.users.cameron = import ./home.nix {inherit pkgs config;};
+  home-manager.useGlobalPkgs = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "Azrael"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -53,25 +61,13 @@
   users.users.cameron = {
     isNormalUser = true;
     description = "cameron";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "audio"];
     packages = with pkgs; [];
     shell = pkgs.zsh;
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  #nixpkgs.overlays = [
-  #  (self: super: {
-  #    leftwm = super.leftwm.overrideAttrs (old: {
-  #      postInstall = ''
-  #  	  for p in $out/bin/left*; do
-  #    	    patchelf --set-rpath "${super.lib.makeLibraryPath super.rpathLibs}" $p
-  #  	  done
-  # 	'';
-  #    });
-  #  })
-  #];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -80,7 +76,7 @@
     gnupg
     pinentry
 
-    neovim
+    pavucontrol
 
     zsh
     #zsh-prezto
@@ -89,6 +85,7 @@
     rofi
     sxhkd
     eww
+    dunst
 
     pass
     rofi-pass
@@ -96,12 +93,10 @@
     alacritty
 
     librewolf
-
-    discord
-    steam
   ];
 
   programs.neovim = {
+    enable = true;
     defaultEditor = true;
     withPython3 = true;
   };
@@ -110,20 +105,6 @@
     (nerdfonts.override { fonts = [ "Hack" ]; })
     julia-mono
   ];
-
-  programs.zsh = {
-    enable = true;
-    #plugins = [
-    #  {
-    #    name = "prezto";
-    #    src = pkgs.zsh-prezto;
-    #  }
-    #  {
-    #    name = "powerlevel10k";
-    #    src = pkgs.zsh-powerlevel10k;
-    #  }
-    #];
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -138,14 +119,41 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  hardware.bluetooth.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
   services.blueman.enable = true;
+
+  # Fixes steam
+  hardware.opengl.driSupport32Bit = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  nixpkgs.overlays = [
+      (final: prev: {
+        leftwm = let rpathLibs = with prev.xorg; [ libXinerama libX11 ];
+        in prev.leftwm.overrideAttrs (old: rec {
+          postInstall = ''
+            for p in $out/bin/left*; do
+              patchelf --set-rpath "${prev.lib.makeLibraryPath rpathLibs}" $p
+            done
+          '';
+      });
+    })
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -154,5 +162,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
