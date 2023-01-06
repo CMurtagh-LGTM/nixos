@@ -2,6 +2,11 @@
 let
   username = "cameron";
 in {
+
+  imports = [
+    ./nvim.nix
+  ];
+
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
@@ -16,6 +21,7 @@ in {
       mpv
       thunderbird
       steam
+      xclip
     ];
   };
 

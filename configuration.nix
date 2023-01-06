@@ -13,7 +13,7 @@ in
       (import "${home-manager}/nixos")
     ];
 
-  home-manager.users.cameron = import ./home.nix {inherit pkgs config lib;};
+  home-manager.users.cameron = import ./home/home.nix {inherit pkgs config lib;};
   home-manager.useGlobalPkgs = true;
 
   # Bootloader.
