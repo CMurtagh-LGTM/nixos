@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 in
@@ -13,7 +13,7 @@ in
       (import "${home-manager}/nixos")
     ];
 
-  home-manager.users.cameron = import ./home.nix {inherit pkgs config;};
+  home-manager.users.cameron = import ./home.nix {inherit pkgs config lib;};
   home-manager.useGlobalPkgs = true;
 
   # Bootloader.
