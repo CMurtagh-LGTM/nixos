@@ -79,8 +79,6 @@ in
     pavucontrol
 
     zsh
-    #zsh-prezto
-    zsh-completions
 
     rofi
     sxhkd
@@ -101,6 +99,8 @@ in
     withPython3 = true;
   };
 
+  programs.ssh.startAgent = true;
+
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "Hack" ]; })
     julia-mono
@@ -111,7 +111,6 @@ in
   programs.gnupg.agent = {
     enable = true;
     pinentryFlavor = "gtk2";
-    enableSSHSupport = true;
   };
 
   # List services that you want to enable:

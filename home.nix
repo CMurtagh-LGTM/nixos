@@ -23,9 +23,18 @@ in {
     home-manager.enable = true;
 
     git = {
+      # TODO
       enable = true;
       userName = "CMurtagh-LGTM";
       userEmail = "cameron.murtagh00@gmail.com";
+    };
+
+    btop = {
+      enable = true;
+      settings = {
+        # TODO
+	color_theme = "everforest-dark-hard";
+      };
     };
 
     zsh = {
