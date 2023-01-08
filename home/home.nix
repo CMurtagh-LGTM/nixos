@@ -25,19 +25,30 @@ in {
       pass
       zathura
       librewolf
+      pavucontrol
     ];
+
+    pointerCursor = {
+        gtk.enable = true;
+        x11.enable = true;
+        package = pkgs.phinger-cursors;
+        name = "phinger-cursors-dark";
+    };
   };
 
-#  gtk.cursorTheme = {
-#    package = "phinger-cursors";
-#    name = "phinger-cursors-dark";
-#  };
+  xsession = {
+    windowManager.command = "leftwm";
+  };
 
   # TODO work out how to move this
   xdg.configFile."alacritty/everforest.yaml".source = ./alacritty/everforest.yaml;
   xdg.configFile."rofi/nord.rasi".source = ./rofi/nord.rasi;
   xdg.configFile."rofi/nord_icons.rasi".source = ./rofi/nord_icons.rasi;
   xdg.configFile."rofi/powermenu.rasi".source = ./rofi/powermenu.rasi;
+
+  services = {
+    dunst = import ./dunst.nix;
+  };
 
   programs = {
     home-manager.enable = true;

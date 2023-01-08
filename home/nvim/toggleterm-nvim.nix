@@ -2,6 +2,7 @@ pkgs: with pkgs.vimPlugins; {
     plugin = toggleterm-nvim;
     config = ''
 lua << EOF
+-- TODO work out keymap
 require("toggleterm").setup{
   -- size can be a number or function which is passed the current terminal
   open_mapping = [[<leader>t]],

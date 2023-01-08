@@ -50,9 +50,9 @@ in
 
   # Configure keymap in X11
   services.xserver = {
+    enable = true;
     layout = "us";
     xkbVariant = "";
-    enable = true;
     displayManager.startx.enable = true;
     windowManager.leftwm.enable = true;
     excludePackages = [pkgs.xterm];
@@ -75,14 +75,8 @@ in
   environment.systemPackages = with pkgs; [
     gnupg
     pinentry
-
-    pavucontrol
-
-    zsh
-
     sxhkd
     eww
-    dunst
   ];
 
   programs.neovim = {

@@ -9,6 +9,12 @@ nnoremap * *<cmd>lua require('hlslens').start()<cr>
 nnoremap # #<cmd>lua require('hlslens').start()<cr>
 nnoremap g* g*<cmd>lua require('hlslens').start()<cr>
 nnoremap g# g#<cmd>lua require('hlslens').start()<cr>
-nnoremap <leader>h :nohlsearch<cr>
+lua << EOF
+require'whichkey'.register {
+    ["<leader>"] = {
+        h = {":nohlsearch<cr>", "remove search highlight"},
+    }
+}
+EOF
     '';
 }
