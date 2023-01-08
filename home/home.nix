@@ -23,7 +23,6 @@ in {
       steam
       xclip
       pass
-      rofi-pass
       zathura
       librewolf
     ];
@@ -34,8 +33,11 @@ in {
 #    name = "phinger-cursors-dark";
 #  };
 
-  # TODO work out how to move this to everforest file
+  # TODO work out how to move this
   xdg.configFile."alacritty/everforest.yaml".source = ./alacritty/everforest.yaml;
+  xdg.configFile."rofi/nord.rasi".source = ./rofi/nord.rasi;
+  xdg.configFile."rofi/nord_icons.rasi".source = ./rofi/nord_icons.rasi;
+  xdg.configFile."rofi/powermenu.rasi".source = ./rofi/powermenu.rasi;
 
   programs = {
     home-manager.enable = true;
@@ -43,6 +45,8 @@ in {
     git = import ./git.nix;
     
     bat = import ./bat.nix;
+
+    rofi = import ./rofi/rofi.nix;
 
     btop = {
       enable = true;

@@ -80,7 +80,6 @@ in
 
     zsh
 
-    rofi
     sxhkd
     eww
     dunst
