@@ -15,6 +15,7 @@ in
 
   home-manager.users.cameron = import ./home/home.nix {inherit pkgs config lib;};
   home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -72,7 +73,6 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
     gnupg
     pinentry
 
@@ -84,10 +84,6 @@ in
     sxhkd
     eww
     dunst
-
-    alacritty
-
-    librewolf
   ];
 
   programs.neovim = {

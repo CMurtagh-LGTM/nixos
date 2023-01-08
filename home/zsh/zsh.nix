@@ -13,7 +13,6 @@ pkgs: {
             "completion"
             "prompt"
             "history-substring-search"
-            "autosuggestions"
         ];
         ssh.identities = ["github"];
     };

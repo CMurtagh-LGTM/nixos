@@ -25,6 +25,7 @@ in {
       pass
       rofi-pass
       zathura
+      librewolf
     ];
   };
 
@@ -32,6 +33,9 @@ in {
 #    package = "phinger-cursors";
 #    name = "phinger-cursors-dark";
 #  };
+
+  # TODO work out how to move this to everforest file
+  xdg.configFile."alacritty/everforest.yaml".source = ./alacritty/everforest.yaml;
 
   programs = {
     home-manager.enable = true;
@@ -50,6 +54,8 @@ in {
 	    color_theme = "everforest-dark-hard";
       };
     };
+
+    alacritty = import ./alacritty/alacritty.nix;
 
     zsh = import ./zsh/zsh.nix pkgs;
 
