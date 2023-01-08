@@ -48,6 +48,7 @@ in {
 
   services = {
     dunst = import ./dunst.nix;
+    picom = import ./picom.nix;
   };
 
   programs = {
