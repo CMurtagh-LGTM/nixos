@@ -23,9 +23,10 @@ in {
       steam
       xclip
       pass
-      zathura
       librewolf
       pavucontrol
+      ripgrep
+      fzy
     ];
 
     pointerCursor = {
@@ -59,6 +60,8 @@ in {
     bat = import ./bat.nix;
 
     rofi = import ./rofi/rofi.nix;
+
+    zathura = import ./zathura.nix;
 
     btop = {
       enable = true;
