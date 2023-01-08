@@ -40,12 +40,9 @@ in {
   programs = {
     home-manager.enable = true;
 
-    git = {
-      # TODO
-      enable = true;
-      userName = "CMurtagh-LGTM";
-      userEmail = "cameron.murtagh00@gmail.com";
-    };
+    git = import ./git.nix;
+    
+    bat = import ./bat.nix;
 
     btop = {
       enable = true;
