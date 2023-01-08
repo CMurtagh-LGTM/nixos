@@ -4,7 +4,7 @@ let
 in {
 
   imports = [
-    ./nvim.nix
+    ./nvim/nvim.nix
   ];
 
   home = {
@@ -22,8 +22,16 @@ in {
       thunderbird
       steam
       xclip
+      pass
+      rofi-pass
+      zathura
     ];
   };
+
+#  gtk.cursorTheme = {
+#    package = "phinger-cursors";
+#    name = "phinger-cursors-dark";
+#  };
 
   programs = {
     home-manager.enable = true;

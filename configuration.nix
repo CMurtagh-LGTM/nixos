@@ -85,9 +85,6 @@ in
     eww
     dunst
 
-    pass
-    rofi-pass
-
     alacritty
 
     librewolf
@@ -151,6 +148,17 @@ in
             done
           '';
       });
+    })
+    (final: prev: {
+        rofi-pass = prev.rofi-pass.overrideAttrs (old: {
+            version = "master";
+            src = prev.fetchFromGitHub {
+                owner = "carnager";
+                repo = "rofi-pass";
+                rev = "master";
+                sha256 = "sha256-P0ESwjQEvJXFfoi3rjF/99dUbxiAhq+4HxXTMQapSW4=";
+            };
+        });
     })
   ];
 
